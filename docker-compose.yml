@@ -1,0 +1,41 @@
+version: '3.3'
+
+services:
+  user:
+    image: node:15-alpine
+    container_name: user
+    working_dir: /home/node/app
+    volumes:
+      - ./user:/home/node/app
+    ports:
+      - 8080:8080
+    env_file:
+      - ./.env
+    environment:
+      - REACT_APP_HOSTNAME=$HOSTNAME
+    command: >
+      sh -c '
+        npm i &&
+        npm run start
+      '
+
+  server:
+    image: node:15-alpine
+    container_name: server
+    working_dir: /home/node/app
+    volumes:
+      - ./server:/home/node/app
+    ports:
+      - 3000:3000
+    environment:
+      - DB_HOSTNAME=database
+    command: >
+      sh -c '
+        npm i &&
+        npm i -g nodemon &&
+        nodemon .
+      '
+
+  database:
+    image: mvertes/alpine-mongo
+    container_name: database
