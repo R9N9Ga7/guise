@@ -1,0 +1,1 @@
+console.log(`mongodb://${process.env.DB_HOSTNAME}`)
