@@ -1,8 +1,14 @@
 const express = require('express');
+const authRouter = require('./routes/authRouter.js');
 
 const connectDB = require('./libs/db');
 
 const app = express();
+
+app.use(express.json());
+app.use('/api', authRouter);
+
+
 
 try{
   connectDB();
